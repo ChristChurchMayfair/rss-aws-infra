@@ -109,6 +109,19 @@ resource "aws_lambda_permission" "lambda_permission" {
   source_arn = "${aws_api_gateway_rest_api.ccm_api_gateway.execution_arn}/*/*/*"
 }
 
+resource "aws_api_gateway_domain_name" "rss_christchurchmayfair_org" {
+  domain_name = "rss.christchurchmayfair.org"
+
+  certificate_arn = "arn:aws:acm:us-east-1:284914177938:certificate/dd6e91ef-1a52-4c40-9910-8cad6ffd17ef"
+}
+
+
+resource "aws_api_gateway_base_path_mapping" "production_mapping" {
+  api_id      = "${aws_api_gateway_rest_api.ccm_api_gateway.id}"
+  stage_name  = "${aws_api_gateway_deployment.production.stage_name}"
+  domain_name = "${aws_api_gateway_domain_name.rss_christchurchmayfair_org.domain_name}"
+}
+
 
 output "base_url" {
   value = "${aws_api_gateway_deployment.production.invoke_url}"
