@@ -7,3 +7,6 @@
 
 # .tfvars files
 *.tfvars
+
+# Don't commit creds!
+.aws_credentials
